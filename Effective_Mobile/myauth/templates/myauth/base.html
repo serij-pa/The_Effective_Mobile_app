@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>
+        {% block title %}
+            Starting Myauth
+        {% endblock %}
+    </title>
+</head>
+<body>
+    {% block body %}
+
+    {% endblock %}
+
+
+    <div>
+        <p>
+            <h3>Ссылки</h3>
+                {% if user.is_authenticated %}
+                    <a href="{% url 'myauth:about-me' %}">About-me</a><br>
+                    <a href="{% url 'myauth:logout' %}">Log Out</a><br>
+                    <a href="{% url 'myauth:users_list' %}">Список пользователей</a><br>
+                    <h3>API</h3>
+                        <a href="{% url 'swagger' %}">Swagger</a><br>
+                        <a href="{% url 'redoc' %}">Redoc</a><br>
+                        <a href="/myauth/api/users/">API пользователей</a><br>
+                        <a href="/myauth/api/groups/">API групп</a><br>
+                {% else %}
+                    <a href="{% url 'myauth:login' %}">Вход</a> /
+                    <a href="{% url 'myauth:register' %}">Регистрация</a><br>
+                    <a href="/admin/">АДМИН панелька</a><br>
+                {% endif %}
+        </p>
+    </div>
+</body>
+</html>

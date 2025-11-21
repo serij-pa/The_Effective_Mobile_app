@@ -1,0 +1,34 @@
+{% extends "myauth/base.html" %}
+
+{% block title %}
+  Users list
+{% endblock %}
+
+{% block body %}
+    <h1>Users:</h1>
+        {% if user.is_authenticated %}
+            {% if users %}
+                <div>
+                    {% for user in users %}
+
+                        <div>
+                            <p><a href="{% url 'myauth:user_detail' pk=user.pk %}"
+                            >Пользователь: {{ user.username |capfirst }}</a></p>
+                                {% if user.profileuser.avatar %}
+                                    <a href="{% url 'myauth:user_detail' pk=user.pk %}"
+                                    ><img src="{{ user.profileuser.avatar.url }}" alt="{{ user.profileuser.avatar.name }}"></a>
+                                {% else %}
+                                    <div>No avatar</div>
+                                {% endif %}
+                        </div>
+
+                    {% endfor %}
+                </div>
+
+            {% else %}
+                <h3>No users yet</h3>
+            {% endif %}
+        {% else %}
+            <h2>User is anonymous</h2>
+        {% endif %}
+{% endblock %}

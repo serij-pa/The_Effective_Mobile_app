@@ -1,0 +1,49 @@
+{% extends "myauth/base.html" %}
+
+{% block title %}
+  Users #{{ user.pk }}
+{% endblock %}
+
+{% block body %}
+    <h1>Пользователь {{ user.username |capfirst }}</h1>
+    {% if user.profileuser %}
+        <table class="my-table">
+            <thead>
+                <th>User id: {{ user.pk }}</th>
+                <th>Profile id: {{ user.profileuser.pk }}</th>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <p>Фамилия: {{ user.profileuser.surname }}</p>
+                        <p>Имя: {{ user.profileuser.name }}</p>
+                        <p>Отчество: {{ user.profileuser.patronymic }}</p>
+                        <p>Тел: {{ user.profileuser.phone }}</p>
+                        <p>E-mail: {{ user.profileuser.email }}</p>
+                    </td>
+                    <td>
+                        {% if user.profileuser.avatar %}
+                            <img src="{{ user.profileuser.avatar.url }}" alt="{{ user.profileuser.avatar.name }}">
+                        {% else %}
+                            <div>No avatar</div>
+                        {% endif %}
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        {% if request.user.pk == user.pk or request.user.is_staff %}
+            <br>
+                <a href="{% url 'myauth:profile_update' pk=user.profileuser.pk %}">Обновить профиль</a>
+        {% endif %}
+    {% else %}
+        <div>
+            <p>Имя: {{ user.first_name }}</p>
+            <p>Фамилия: {{ user.last_name }}</p>
+            <p>E-mail: {{ user.email }}</p>
+        </div>
+
+        <div>
+            <p>Доп информация отсутствует</p>
+        </div>
+    {% endif %}
+{% endblock %}

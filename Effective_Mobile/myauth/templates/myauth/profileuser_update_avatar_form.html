@@ -1,0 +1,36 @@
+{% extends "myauth/base.html" %}
+[% load cache %}
+
+{% block title %}
+    About me
+{% endblock %}
+
+{% block body %}
+    <h1>User info About me</h1>
+    {% if user.is_authenticated %}
+        <h2>Пользователь {{ user.username |capfirst }}</h2>
+        <p>User id: {{ user.pk }}</p>
+        {% if user.profileuser %}
+            {% if user.profileuser.avatar %}
+                <img src="{{ user.profileuser.avatar.url }}" alt="{{ user.profileuser.avatar.name }}">
+            {% else %}
+                <div>No avatar</div>
+            {% endif %}
+            <p>Profile id: {{ user.profileuser.pk }}</p>
+            <p>ФИО: {{ user.profileuser.surname }} {{ user.profileuser.name }} {{ user.profileuser.patronymic }}</p>
+            <p>Тел: +7 {{ user.profileuser.phone }}</p>
+            <p>E-mail: {{ user.profileuser.email }}</p>
+                <form method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <button type="submit">Обновить аватар</button>
+                </form>
+        {% else %}
+            <p>Имя: {{ user.first_name }}</p>
+            <p>Фамилия: {{ user.last_name }}</p>
+            <p>E-mail: {{ user.email }}</p>
+        {% endif %}
+    {% else %}
+        <h2>User is anonymous</h2>
+    {% endif %}
+{% endblock %}
