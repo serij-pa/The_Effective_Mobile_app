@@ -4,15 +4,16 @@ from django.contrib.auth.views import LoginView
 from django.contrib.auth.models import User, Group
 from django.contrib.auth.mixins import UserPassesTestMixin
 from django.contrib.auth import authenticate, login, logout
+from django.contrib import messages
 from django.http import HttpRequest
 from django.shortcuts import redirect
 from django.urls import reverse, reverse_lazy
 from django.views.generic import CreateView, UpdateView, ListView, DetailView
-from rest_framework.generics import ListCreateAPIView
+from django.views.generic.edit import FormView
 from rest_framework.viewsets import ModelViewSet
 
 
-from .forms import RegisterUserForm, ProfileAvatarForm, ProfileUserForme
+from .forms import RegisterUserForm, ProfileAvatarForm, ProfileUserForme, NoForm
 from .models import ProfileUser
 from .serializers import GroupSerializer, UserSerializer
 
@@ -80,7 +81,7 @@ class RegisterUser(CreateView):
             user=self.object,
             name=form.cleaned_data.get("first_name"),
             surname=form.cleaned_data.get("last_name"),
-            email=form.cleaned_data.get("email"), avatar='avatar_default.png')
+            email=form.cleaned_data.get("email"))
 
         user = authenticate(
             self.request,
@@ -126,3 +127,23 @@ class ProfileUpdate(UserPassesTestMixin, UpdateView):
             "myauth:user_detail",
             kwargs={"pk": self.object.user.pk},
         )
+
+
+class SoftDeleteAccountView(LoginRequiredMixin, FormView):
+    """
+    Класс реализующий мягкое удаление пользователя
+    путем изменения is_active на False
+    """
+    template_name = 'myauth/soft_delete_account.html'
+    success_url = reverse_lazy('myauth:login')
+    form_class = NoForm
+
+    def form_valid(self, form):
+        user = self.request.user
+        user.is_active = False
+        user.save()
+
+        logout(self.request)
+
+        messages.success(self.request, 'Ваш аккаунт был деактивирован.')
+        return super().form_valid(form)

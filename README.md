@@ -52,6 +52,10 @@
 
 ![](Effective_Mobile/screenshots/izmenenie_dannih_1.png) ![](Effective_Mobile/screenshots/izmenenie_dannih_2.png)
 
+* Мягкое удаление пользователя утем изменения is_active на False
+
+![](Effective_Mobile/screenshots/Delete.png)
+
 * Login: пользователь входить в систему по email и паролю.
 * Реализованы оба бэкенда: и по логину и по E-mail
 
@@ -71,7 +75,15 @@
 
 ![](Effective_Mobile/screenshots/ogranichenie_dostupa_2.png)
 
-* И вносить изменения могут только определенные пользователи
+* Для удобства изменения данных АДМИНОМ выгружается список всех пользователей с возможностью изменения профиля.
+
+![](Effective_Mobile/screenshots/profil_1.png)
+
+![](Effective_Mobile/screenshots/profil_2.png)
+
+![](Effective_Mobile/screenshots/profil_3.png)
+
+* Вносить изменения в профиль могут или Админ или сам пользователь кому принадлежить профиль.
 
 ![](Effective_Mobile/screenshots/ogranichenie_dostupa_3.png)
 

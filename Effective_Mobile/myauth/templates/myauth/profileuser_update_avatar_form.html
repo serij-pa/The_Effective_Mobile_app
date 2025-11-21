@@ -9,6 +9,11 @@
     <h1>User info About me</h1>
     {% if user.is_authenticated %}
         <h2>Пользователь {{ user.username |capfirst }}</h2>
+        {% if request.user.pk == user.pk %}
+            <br>
+                <a href="{% url 'myauth:soft_delete_account' %}">Удалить аккаунт</a><br>
+                <a href="{% url 'myauth:profile_update' pk=user.profileuser.pk %}">Обновить профиль</a>
+        {% endif %}
         <p>User id: {{ user.pk }}</p>
         {% if user.profileuser %}
             {% if user.profileuser.avatar %}

@@ -9,6 +9,7 @@ from .views import (LoginUser,
                     ProfileUpdate,
                     GroupViewSet,
                     UserViewSet,
+                    SoftDeleteAccountView,
 
 )
 
@@ -28,5 +29,6 @@ urlpatterns = [
     path("users/", UsersListView.as_view(), name="users_list"),
     path("users/<int:pk>", UserDetail.as_view(), name="user_detail"),
     path("user/<int:pk>/update", ProfileUpdate.as_view(), name="profile_update"),
+    path('delete-account/', SoftDeleteAccountView.as_view(), name='soft_delete_account'),
 
 ]

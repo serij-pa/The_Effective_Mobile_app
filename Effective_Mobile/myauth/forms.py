@@ -72,3 +72,7 @@ class ProfileUserForme(forms.ModelForm):
             'patronymic': forms.TextInput(attrs={'class': 'form-input'}),
             'phone': forms.TextInput(attrs={'class': 'form-input'}),
         }
+
+
+class NoForm(forms.Form):
+    pass
